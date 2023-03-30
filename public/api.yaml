@@ -1,0 +1,375 @@
+openapi: 3.0.0
+info:
+  title: 'Serveur Api Documentation'
+  description: 'Serveur Api Documentation'
+  contact:
+    name: 'Theo Journee, Sebastien Coze'
+    email: 'theo.journee@univ-artois.fr , sebastien.coze@univ-artois.fr'
+  license:
+    name: 'Apache 2.0'
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+  version: 1.0.0
+servers:
+  -
+    url: /api
+    description: 'OpenApi host'
+paths:
+  /clients:
+    get:
+      tags:
+        - Clients
+      summary: 'Display a listing of the resource.'
+      description: 'La liste des clients'
+      operationId: index
+      responses:
+        '200':
+          description: 'La liste des clients'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties: { id: { type: integer, format: int64 }, nom: { type: string }, prenom: { type: string }, adresse: { type: string }, code_postal: { type: number }, ville: { type: string }, valide: { type: boolean } }
+                  type: object
+    post:
+      tags:
+        - Clients
+      summary: 'Store a newly created resource in storage.'
+      description: 'Ajouter un client dans la base'
+      operationId: create
+      requestBody:
+        required: true
+      responses:
+        '200':
+          description: "Creation d'un Client"
+          content:
+            application/json:
+              schema:
+                properties:
+                  status: { type: boolean }
+                  message: { type: string }
+                  client: {  }
+                type: object
+        '422':
+          description: "Creation d'un client"
+          content:
+            application/json:
+              schema:
+                properties:
+                  message: { type: string }
+                  errors: { properties: { nom|prenom|adresse|code_postal|ville: { type: array, items: { type: string } } }, type: object }
+                type: object
+  '/clients/{id}':
+    get:
+      tags:
+        - Clients
+      summary: 'Display the specified resource.'
+      description: "Détails d'un client"
+      operationId: show
+      parameters:
+        -
+          name: id
+          in: path
+          description: "Identifiant d'un client"
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: "Détails d'un client"
+          content:
+            application/json:
+              schema:
+                properties:
+                  id: { type: integer, format: int64 }
+                  nom: { type: string }
+                  prenom: { type: string }
+                  adresse: { type: string }
+                  code_postal: { type: number }
+                  ville: { type: string }
+                  valide: { type: boolean }
+                type: object
+        '404':
+          description: 'Client non trouvée'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message: { type: string }
+                  errors: { properties: { id: { type: array, items: { type: string } } }, type: object }
+                type: object
+    put:
+      tags:
+        - Clients
+      summary: 'Update the specified resource in storage.'
+      description: 'Modifier un client dans la base'
+      operationId: update
+      parameters:
+        -
+          name: id
+          in: path
+          description: "Identifiant d'un client"
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+      responses:
+        '200':
+          description: "Modification d'un client"
+          content:
+            application/json:
+              schema:
+                properties:
+                  status: { type: boolean }
+                  message: { type: string }
+                  personne: {  }
+                type: object
+        '422':
+          description: "Creation d'un client"
+          content:
+            application/json:
+              schema:
+                properties:
+                  message: { type: string }
+                  errors: { type: object }
+                type: object
+    delete:
+      tags:
+        - Clients
+      summary: 'Remove the specified resource from storage.'
+      description: 'Supprime un client'
+      operationId: destroy
+      parameters:
+        -
+          name: id
+          in: path
+          description: "Identifiant d'un client"
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Supprime un client'
+          content:
+            application/json:
+              schema:
+                properties:
+                  status: { type: boolean }
+                  message: { type: string }
+                type: object
+        '404':
+          description: 'Client non trouvée'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message: { type: string }
+                  errors: { properties: { id: { type: array, items: { type: string } } }, type: object }
+                type: object
+  /salles:
+    get:
+      tags:
+        - Salles
+      summary: 'Display a listing of the resource.'
+      description: 'La liste des salles'
+      operationId: index
+      responses:
+        '200':
+          description: 'La liste des salles'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties: { id: { type: integer, format: int64 }, nom: { type: string }, adresse: { type: string }, code_postal: { type: number }, ville: { type: string } }
+                  type: object
+    post:
+      tags:
+        - Salles
+      summary: 'Store a newly created resource in storage.'
+      description: 'Ajouter une salle dans la base'
+      operationId: create
+      requestBody:
+        required: true
+      responses:
+        '200':
+          description: "Creation d'une salles"
+          content:
+            application/json:
+              schema:
+                properties:
+                  status: { type: boolean }
+                  message: { type: string }
+                  salle: {  }
+                type: object
+        '422':
+          description: "Creation d'une salle"
+          content:
+            application/json:
+              schema:
+                properties:
+                  message: { type: string }
+                  errors: { properties: { nom|adresse|code_postal|ville: { type: array, items: { type: string } } }, type: object }
+                type: object
+  '/salles/{id}':
+    get:
+      tags:
+        - Salles
+      summary: 'Display the specified resource.'
+      description: "Détails d'une salles"
+      operationId: show
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'Identifiant de la salle'
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: "Détails d'une salle"
+          content:
+            application/json:
+              schema:
+                properties:
+                  id: { type: integer, format: int64 }
+                  nom: { type: string }
+                  adresse: { type: string }
+                  code_postal: { type: number }
+                  ville: { type: string }
+                type: object
+        '404':
+          description: 'Salle non trouvée'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message: { type: string }
+                  errors: { properties: { id: { type: array, items: { type: string } } }, type: object }
+                type: object
+    put:
+      tags:
+        - Salles
+      summary: 'Update the specified resource in storage.'
+      description: 'Modifier une salles dans la base'
+      operationId: update
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'Identifiant de la salle'
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+      responses:
+        '200':
+          description: "Modification d'une salles"
+          content:
+            application/json:
+              schema:
+                properties:
+                  status: { type: boolean }
+                  message: { type: string }
+                  personne: {  }
+                type: object
+        '422':
+          description: "Creation d'une salles"
+          content:
+            application/json:
+              schema:
+                properties:
+                  message: { type: string }
+                  errors: { type: object }
+                type: object
+    delete:
+      tags:
+        - Salles
+      summary: 'Remove the specified resource from storage.'
+      description: 'Supprime une salles'
+      operationId: destroy
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'Identifiant de la salle'
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Supprime une salle'
+          content:
+            application/json:
+              schema:
+                properties:
+                  status: { type: boolean }
+                  message: { type: string }
+                type: object
+        '404':
+          description: 'Salle non trouvée'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message: { type: string }
+                  errors: { properties: { id: { type: array, items: { type: string } } }, type: object }
+                type: object
+components:
+  schemas:
+    Activite:
+      description: App\Models\Activite
+      properties: {  }
+    Client:
+      properties:
+        nom:
+          description: App\Models\Client
+          type: string
+        prenom:
+          type: string
+        adresse:
+          type: string
+        code_postal:
+          type: number
+        ville:
+          type: string
+      type: object
+    Materiel:
+      description: App\Models\Materiel
+      properties: {  }
+    Reservation:
+      description: App\Models\Reservation
+      properties: {  }
+    Role:
+      properties:
+        nom:
+          type: string
+      type: object
+    Salle:
+      properties:
+        id:
+          description: App\Models\Salle
+          type: integer
+          format: int64
+        nom:
+          type: string
+        adresse:
+          type: string
+        code_postal:
+          type: number
+        ville:
+          type: string
+      type: object
+    User:
+      properties:
+        nom:
+          description: App\Models\User
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+      type: object
